@@ -205,7 +205,7 @@ void update_peer_digest_state(peer_meta_t *peer, addr_t start_digest, int n_dige
 	}
 
 	//printf("%s\n", "received digestion notification from slave");
-	//pthread_mutex_lock(peer->shared_rsync_addr_lock);
+	pthread_mutex_lock(peer->shared_rsync_addr_lock);
 
 	// rotations can sometimes be recorded by LibFS; detect them here
 	if(peer->start_digest > start_digest)
@@ -227,7 +227,7 @@ void update_peer_digest_state(peer_meta_t *peer, addr_t start_digest, int n_dige
 	}
 
 	mlfs_printf("update peer %d digest state: version %u block_nr %lu\n", peer->id, peer->start_version, peer->start_digest);
-	//pthread_mutex_unlock(peer->shared_rsync_addr_lock);
+	pthread_mutex_unlock(peer->shared_rsync_addr_lock);
 }
 
 void wait_on_peer_digesting(peer_meta_t *peer)

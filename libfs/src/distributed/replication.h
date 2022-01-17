@@ -182,7 +182,7 @@ static inline void clear_peer_digesting(peer_meta_t *peer)
 
 static inline void set_peer_syncing(peer_meta_t *peer, int seqn)
 {
-	mlfs_printf("set syncing for peer %d seqn %d\n", peer->id, seqn);
+	mlfs_debug("set syncing for peer %d seqn %d\n", peer->id, seqn);
 	while (1) {
 		//if (!xchg_8(&g_fs_log->digesting, 1)) 
 		if (!cmpxchg(&peer->syncing[seqn], 0, 1)) 
@@ -195,7 +195,7 @@ static inline void set_peer_syncing(peer_meta_t *peer, int seqn)
 
 static inline void clear_peer_syncing(peer_meta_t *peer, int seqn)
 {
-	mlfs_printf("clear syncing for peer %d seqn %d\n", peer->id, seqn);
+	mlfs_debug("clear syncing for peer %d seqn %d\n", peer->id, seqn);
 	//while (1) {
 		//if (!xchg_8(&g_fs_log->digesting, 1)) 
 		if (cmpxchg(&peer->syncing[seqn], 1, 0))
